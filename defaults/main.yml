@@ -1,0 +1,23 @@
+td_path_version: '3.7.0-0'
+
+
+# NOTE: This is http we get a certificate error with HTTPS due to the treauredata bucket name being sub domained
+td_agent_path: http://packages.treasuredata.com.s3.amazonaws.com/3/redhat/7/x86_64/td-agent-{{ td_path_version }}.el7.x86_64.rpm
+td_agent_checksum: "sha256:5B3E30237F4EA243798D75CAC842729FDC590B24828B8F30A86E5367888DEE39"
+
+
+# Versions do not line up need to look into this
+td_agent_version: '1.10.0'
+
+
+remote_servers:
+    - {
+        name: 'myserver', # Name or IP
+        port: '24284'
+    }
+
+# Below section should be used for secure forward
+#fluentd_secret: Secretontheserverformutualauth
+#fluentd_capath: pathfromthehostforfluentd
+
+local_capath: /etc/td-agent/ca.pem

@@ -1,0 +1,49 @@
+- name: TdAgent | get current version
+  shell: >
+    td-agent --version
+  ignore_errors: yes
+  changed_when: false
+  register: current_tdagent
+
+- name: TdAgent | Install | Download binary
+  get_url:
+    url: "{{ td_agent_path }}"
+    dest: /tmp/tdagent.rpm
+    checksum: "{{ td_agent_checksum }}"
+  register: tdagent_download
+  when: current_tdagent is failed or td_agent_version not in current_tdagent.stdout 
+
+- name: TdAgent | Install | RPM
+  yum:
+    state: present
+    name: "{{ tdagent_download.dest }}"
+  when: current_tdagent is failed or td_agent_version not in current_tdagent.stdout 
+
+- name: TdAgent | Config | fix td permissions
+  file: 
+    path: "{{ item }}"
+    state: directory
+    owner: td-agent
+    group: td-agent
+    mode: 0750
+  with_items:
+    - /etc/td-agent/conf.d
+    - /etc/td-agent
+
+- name: TdAgent | Config | Copy Configuration
+  template: 
+    src: "etc_td-agent_td-agent.conf"
+    dest: /etc/td-agent/td-agent.conf
+    owner: td-agent
+    group: td-agent
+    mode: 0440
+
+# - name: TdAgent | install | Install build requirements
+#   package:
+#     name: "{{ item }}"
+#     state: present
+#   with_items: "{{ fluentd_build }}"
+
+- name: TdAgent | plugins | Install gems
+  command: "td-agent-gem install {{ item }}"
+  with_items: "{{ fluentd_requirements }}"
