@@ -53,6 +53,9 @@
 #     state: present
 #   with_items: "{{ fluentd_build }}"
 
+- include: syslog.yml
+  when: configure_syslog
+
 - name: TdAgent | plugins | Install gems
   command: "td-agent-gem install {{ item }}"
   with_items: "{{ fluentd_requirements }}"

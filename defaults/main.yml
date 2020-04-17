@@ -22,4 +22,11 @@ remote_servers:
 
 local_capath: /etc/td-agent/ca.pem
 
+# Adds the hostname and the tag to all records
 addhostname: true
+
+# Enables the fluentd syslog monitoring
+configure_syslog: true
+syslog_bindaddress: 127.0.0.1
+syslog_bindport: 5140
+syslog_tag: system

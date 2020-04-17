@@ -1,0 +1,4 @@
+# Send log messages to Fluentd
+*.* @127.0.0.1:{{ syslog_bindport }}
+{# The ip is set to the loopback because no matter what the bindaddress is this will read the loopback
+    The bind address is just sytax so that one fluentd server could act as a forwarder #}
