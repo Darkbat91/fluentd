@@ -1,0 +1,5 @@
+- name: TdAgent | Handler | restart syslog
+  service:
+    name: rsyslog
+    state: restarted
+  listen: restart_rsyslog
