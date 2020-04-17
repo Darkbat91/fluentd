@@ -38,6 +38,15 @@
     group: td-agent
     mode: 0440
 
+- name: TdAgent | Config | Copy hostname filter
+  copy: 
+    src: "etc_tdagent_confd_filtername.conf"
+    dest: /etc/td-agent/conf.d/filtername.conf
+    owner: td-agent
+    group: td-agent
+    mode: 0440
+  when: addhostname
+
 # - name: TdAgent | install | Install build requirements
 #   package:
 #     name: "{{ item }}"

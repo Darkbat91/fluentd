@@ -21,3 +21,5 @@ remote_servers:
 #fluentd_capath: pathfromthehostforfluentd
 
 local_capath: /etc/td-agent/ca.pem
+
+addhostname: true
